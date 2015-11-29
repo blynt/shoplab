@@ -1,0 +1,5 @@
+{
+  "require": {
+    "woothemes/woocommerce-api": "2.0.1"
+  }
+}
