@@ -1,5 +1,5 @@
 #!/usr/bin/env php
-<?
+<?php
 
 # Description: Sync data from WooCommerce stores
 
@@ -68,7 +68,16 @@ class WooCommerce {
 
       if (isset($result['orders'])) {
         foreach ($result['orders'] as $order) {
+          $created_at = new DateTime($order['created_at']);
+          $updated_at = new Datetime($order['updated_at']);
+          $completed_at = new DateTime($order['completed_at']);
+
           $order['shoplab_user_id'] = $woo_id;
+
+          $order['created_at_ts'] = $created_at->getTimestamp();
+          $order['updated_at_ts'] = $updated_at->getTimestamp();
+          $order['completed_at_ts'] = $completed_at->getTimestamp();
+
 	        $mongo_orders->update(
             array(
               'shoplab_user_id' => $order['shoplab_user_id'],
@@ -85,7 +94,7 @@ class WooCommerce {
       if (0 < $pages) {
         echo("Fetched page $at_page (batch size $batch_size) of $pages.\n");
       } else {
-        echo("Nothing new to fetch.\n");
+        echo("Nothing more to fetch.\n");
       }
 
       $at_page++;
